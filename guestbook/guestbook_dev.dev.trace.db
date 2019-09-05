@@ -1,0 +1,12 @@
+2019-09-03 19:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GUESTBOOK" not found; SQL statement:
+SELECT * FROM guestbook [42102-199]
+2019-09-03 19:19:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GUESTBOOK" not found; SQL statement:
+SELECT * FROM guestbook [42102-199]
+2019-09-03 19:19:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GUESTBOOK" not found; SQL statement:
+SELECT * FROM guestbook [42102-199]
+2019-09-03 19:19:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GUESTBOOK" not found; SQL statement:
+SELECT * FROM guestbook [42102-199]
