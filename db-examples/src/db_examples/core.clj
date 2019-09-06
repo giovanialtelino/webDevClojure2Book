@@ -1,6 +1,6 @@
 (ns db-examples.core
   (:require [clojure.java.jdbc :as sql]))
-
+            
 (def db {:subprotocol "postgresql"
          :subname "//localhost/REPORTING"
          :user "clojure"
