@@ -7,25 +7,26 @@
     [reitit.ring.middleware.muuntaja :as muuntaja]
     [reitit.ring.middleware.multipart :as multipart]
     [reitit.ring.middleware.parameters :as parameters]
+    [reitit.dev.pretty :as pretty]
     [picture-gallery.middleware.formats :as formats]
     [picture-gallery.middleware.exception :as exception]
     [ring.util.http-response :refer :all]
     [clojure.java.io :as io]
-    [schema.core :as s]
+    [schema.core :as sw]
     [picture-gallery.routes.services.auth :as auth]))
 
-(s/defschema UserRegistration
-  {:id String
-   :pass String
-   :pass-confirm String})
+(sw/defschema UserRegistration
+             {:id        String
+              :pass              String
+              :pass-confirm              String})
+(sw/defschema Result
+             {:result sw/Keyword
+              (sw/optional-key :message) String})
 
-(s/defschema Result
-  {:result s/Keyword
-   (s/optional-key :message) String })
 
 (defn service-routes []
   ["/api"
-   {                                                        ;:coercion spec-coercion/coercion
+   {:coercion spec-coercion/coercion
     :muuntaja formats/instance
     :swagger {:id ::api}
     :middleware [;; query-params & form-params
@@ -58,11 +59,16 @@
              {:url "/api/swagger.json"
               :config {:validator-url nil}})}]]
 
-    ["/register" {:post {:summary "register a new user"
-                         :parameters {:body UserRegistration}
-                         :handler (fn [request]
-                                    (let [x (-> request :parameters :keys)
-                                          y (-> request :body)]
-                                      (->> (auth/register! x y))
-                                      ))}}]
-   ])
+   ["/math" {:post {:parameters {:body {:x int?, :y int?}}
+                   :responses {200 {:body {:total pos-int?}}}
+                   :handler (fn [{{{:keys [x y]} :body} :parameters}]
+                              {:status 200
+                               :body {:total (+ x y)}})}}]
+
+   ["/register" {:post
+                 {:parameters {:body {:user {:id string?
+                                      :pass string?
+                                      :pass-confirm string?}}}
+                  :handler (fn [{{{:keys [user]} :body} :parameters}]
+                             (auth/register! {{:keys :body}:parameters} user))}}]]
+  )

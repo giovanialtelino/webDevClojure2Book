@@ -19,6 +19,7 @@
                                          }))))
 
 (defn register! [{:keys [session]} user]
+  (println user)
   (if (registration-errors user)
     (response/precondition-failed {:result :error})
   (try
